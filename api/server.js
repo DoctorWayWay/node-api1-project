@@ -9,13 +9,7 @@ const server = express()
 server.use(express.json())
 
 // ===== ENDPOINTS =====
-// [GET] / hello (test endpoint)
-server.get("/hello", (req, res) => {
-  res.json({
-    "message": "Hello from port 9000"
-  })
-})
-
+// [POST] /api/users
 server.post("/api/users", async (req, res) => {
   try {
     const { name, bio } = req.body
@@ -37,6 +31,20 @@ server.post("/api/users", async (req, res) => {
     })
   }
 })
+
+// [GET] /api/users
+server.get("/api/users", async (req, res) => {
+  try {
+    const allUsers = await Users.find()
+    res.json(allUsers)
+  } catch (err) {
+    res.status(500).json({
+      "message": "An error occured when retrieving users",
+      "error": err.message
+    })
+  }
+})
+
 
 // ===== SERVER EXPORT =====
 module.exports = server

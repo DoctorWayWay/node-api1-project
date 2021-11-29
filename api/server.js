@@ -65,5 +65,25 @@ server.get("/api/users/:id", async (req, res) => {
   }
 })
 
+// [DELETE] /api/users/:id
+server.delete("/api/users/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const deletedUser = await Users.remove(id)
+    if (!deletedUser) {
+      res.status(404).json({
+        "message": "does not exist"
+      })
+    } else {
+      res.json(deletedUser)
+    }
+  } catch (err) {
+    res.status(500).json({
+      "message": `An error occured when deleting a user with an id of ${id}`,
+      "error": err.message
+    })
+  }
+})
+
 // ===== SERVER EXPORT =====
 module.exports = server

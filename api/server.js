@@ -45,6 +45,25 @@ server.get("/api/users", async (req, res) => {
   }
 })
 
+// [GET] /api/users/:id
+server.get("/api/users/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const user = await Users.findById(id)
+    if (!user) {
+      res.status(404).json({
+        "message": "does not exist"
+      })
+    } else {
+      res.json(user)
+    }
+  } catch (err) {
+    res.status(500).json({
+      "message": `An error occured when retrieving a user with an id of ${id}`,
+      "error": err.message
+    })
+  }
+})
 
 // ===== SERVER EXPORT =====
 module.exports = server

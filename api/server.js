@@ -19,7 +19,7 @@ server.post("/api/users", async (req, res) => {
         "message": "provide name and bio"
       })
     } else {
-      // Pulling req.body name and bio and placing into Users.insert method
+      // Pulling req.body name and bio and placing it into Users.insert method as an object
       const newUser = await Users.insert({ name, bio })
       // Sending the JSON response containing the newUser and a status 201 message
       res.status(201).json(newUser)
@@ -59,7 +59,7 @@ server.get("/api/users/:id", async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      "message": `An error occured when retrieving a user with an id of ${id}`,
+      "message": `An error occured when retrieving the user with an id of ${id}`,
       "error": err.message
     })
   }
@@ -79,7 +79,32 @@ server.delete("/api/users/:id", async (req, res) => {
     }
   } catch (err) {
     res.status(500).json({
-      "message": `An error occured when deleting a user with an id of ${id}`,
+      "message": `An error occured when deleting the user with an id of ${id}`,
+      "error": err.message
+    })
+  }
+})
+
+// [PUT] /api/users/:id
+server.put("/api/users/:id", async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  try {
+    const updatedUser = await Users.update(id, body)
+    if (!body.name || !body.bio) {
+      res.status(400).json({
+        "message": "provide name and bio"
+      })
+    } else if (!updatedUser) {
+      res.status(404).json({
+        "message": "does not exist"
+      })
+    } else {
+      res.json(updatedUser)
+    }
+  } catch (err) {
+    res.status(500).json({
+      "message": `An error occured when updating the user with an id of ${id}`,
       "error": err.message
     })
   }

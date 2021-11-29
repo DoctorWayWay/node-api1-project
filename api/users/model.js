@@ -1,6 +1,4 @@
 // DO NOT MAKE CHANGES TO THIS FILE
-// DO NOT MAKE CHANGES TO THIS FILE
-// DO NOT MAKE CHANGES TO THIS FILE
 const { nanoid } = require('nanoid')
 
 function getId() {
@@ -15,8 +13,6 @@ const initializeUsers = () => ([
 // FAKE IN-MEMORY USERS "TABLE"
 let users = initializeUsers()
 
-// DATABASE ACCESS FUNCTIONS
-// DATABASE ACCESS FUNCTIONS
 // DATABASE ACCESS FUNCTIONS
 const find = () => {
   // SELECT * FROM users;
